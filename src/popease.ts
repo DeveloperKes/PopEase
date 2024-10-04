@@ -1,20 +1,29 @@
+import { colors } from "./colors";
 
 export interface Properties {
     position: 'center' | 'top' | 'bottom' | 'left' | 'right' | 'top-left' | 'top-right' | 'bottom-right' | 'bottom-left',
-
+    type: 'info' | 'success' | 'warning' | 'error',
+    icon?: {
+        position: 'left' | 'center' | 'right',
+        icon_name?: string,
+        library?: string,
+        url?: string
+    },
+    color?: string | 'rose' | 'delphinium' | 'daisy' | 'grass' | 'lilac',
+    title?: string,
+    text?: string
 }
 
 export class PopUp {
     private BODY: HTMLBodyElement = document.getElementsByTagName('body')[0];
     private backdrop: HTMLDivElement = document.createElement('div');
-    properties: Properties = {
-        position: 'center'
-    }
+    properties!: Properties;
     constructor() {
+
     }
 
     private setPosition() {
-        switch (this.properties.position) {
+        switch (this.properties?.position) {
             case "center":
                 return `align-items: center; justify-content: center;`;
             case "top":
@@ -60,6 +69,7 @@ export class PopUp {
     private buildBaseCard(): HTMLDivElement {
         const min_width = window.screen.width * 0.34;
         const min_heigth = min_width - (min_width * 0.34);
+        const color = this.setColours();
 
         const cardStyles: string = `
             min-width: ${min_width}px;
@@ -67,14 +77,37 @@ export class PopUp {
             border-radius: 15px;
             background-color: #fefefe;
             box-shadow: 0px 3px 10px 2px #1a1a1a50;
+            border-top: ${color} 1rem outset;
         `;
         const card: HTMLDivElement = document.createElement('div');
         card.style.cssText = cardStyles;
         return card;
     }
 
+    private setColours() {
+        if (this.properties.color) {
+
+        }
+        else switch (this.properties.type) {
+            case ('success'): return colors['grass'];
+            case ('error'): return colors['rose'];
+            case ('info'): return colors['delphinium'];
+            case ('warning'): return colors['daisy'];
+            default: return colors['lilac'];
+        }
+    }
+
+    /**
+     * 
+     * @param properties Propiedades necesarias para la funcionalidad de la página
+     */
     public ready(properties?: Properties) {
-        if (properties) this.properties = properties;
-        this.buildBackdrop()
+        try {
+            if (!properties) throw new Error(`TypeError:\n 
+            Properties not set, undefined can't use to initialize`);
+            this.buildBackdrop()
+        } catch (error) {
+            console.error(error);
+        }
     }
 }

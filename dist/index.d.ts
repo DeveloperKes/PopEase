@@ -1,3 +1,3 @@
 import { PopUp } from "./popease";
 export * as PopUp from "./popease";
-export const Pop = new PopUp();
+export declare const Pop: PopUp;
