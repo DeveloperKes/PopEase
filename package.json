@@ -1,17 +1,21 @@
 {
   "name": "popease",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "module": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "rollup -c",
     "watch": "tsc --watch",
-    "link": "npm link",
-    "unlink": "npm unlink"
+    "dev": "npm run types && rollup -c --watch",
+    "types": "tsc --emitDeclarationOnly"
   },
   "devDependencies": {
-    "ts-loader": "^9.5.1"
-  },
-  "dependencies": {}
+    "esbuild": "^0.25.8",
+    "rollup": "^4.46.2",
+    "rollup-plugin-esbuild": "^6.2.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "ts-loader": "^9.5.2",
+    "typescript": "^5.9.2"
+  }
 }
